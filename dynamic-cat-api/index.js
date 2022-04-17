@@ -1,4 +1,5 @@
-const fetch = require("node-fetch");
+const nodeHtmlToImage = require('node-html-to-image');
+const cats = require("cats-js")
 const fs = require('fs');
 const path = require('path');
 
@@ -9,13 +10,10 @@ module.exports = async function (context, req) {
     var text = context.bindingData.text;
 
     // get random cat image url
-    const urlResp = await fetch("https://api.thecatapi.com/v1/images/search?limit=1&size=full", {
-        method: 'GET',
-        headers: {
-            'x-api-key': process.env.CAT_KEY
-        }
-    });
-    const url = await urlResp.data[0].url;
+    const c = new cats();
+    const catObj = await c.get()
+    const url = catObj.images.image.url;
+    context.log(url)
 
     // templating html
     const templateHtml = fs.readFileSync(path.join(__dirname, 'templates.html'), 'utf8');

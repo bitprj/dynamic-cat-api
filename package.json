@@ -6,6 +6,21 @@
     "start": "func start",
     "test": "echo \"No tests yet...\""
   },
-  "dependencies": {},
-  "devDependencies": {}
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bitprj/dynamic-cat-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bitprj/dynamic-cat-api/issues"
+  },
+  "homepage": "https://github.com/bitprj/dynamic-cat-api#readme",
+  "dependencies": {
+    "cats-js": "^1.0.2",
+    "node-fetch": "^2.6.7",
+    "node-html-to-image": "^3.2.4"
+  }
 }
