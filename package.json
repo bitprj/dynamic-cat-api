@@ -19,7 +19,8 @@
   },
   "homepage": "https://github.com/bitprj/dynamic-cat-api#readme",
   "dependencies": {
-    "node-fetch": "^2.6.7",
-    "node-html-to-image": "^3.2.4"
+    "@azure/identity": "^2.0.4",
+    "@azure/storage-blob": "^12.9.0",
+    "jimp": "^0.16.1"
   }
 }
