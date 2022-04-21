@@ -9,8 +9,8 @@
         "get",
         "post"
       ],
-      "route": "cat/says/{text:alpha}"
-    },
+      "route": "cat/says/{text}"
+    }, 
     {
       "type": "http",
       "direction": "out",
