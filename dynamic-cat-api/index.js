@@ -9,6 +9,20 @@ module.exports = async function (context, req) {
     var color = req.query.color;
     var hexcode = "";
     var size = req.query.size;
+    var font;
+
+    // determine font size
+    if (size <= 1) {
+        font = await Jimp.loadFont(Jimp.FONT_SANS_8_BLACK);
+    } else if (size == 2) {
+        font = await Jimp.loadFont(Jimp.FONT_SANS_16_BLACK);
+    } else if (size == 3 || size == undefined) {
+        font = await Jimp.loadFont(Jimp.FONT_SANS_64_BLACK);
+    } else if (size == 4) {
+        font = await Jimp.loadFont(Jimp.FONT_SANS_32_BLACK);
+    } else {
+        font = await Jimp.loadFont(Jimp.FONT_SANS_128_BLACK);
+    }
 
     // determine xor value
     if (color == "green") {
@@ -22,10 +36,9 @@ module.exports = async function (context, req) {
     }
 
     const buffer = await getImageFromStorage();
-    const font = await Jimp.loadFont(Jimp.FONT_SANS_32_BLACK);
  
     const image = await Jimp.read(buffer).then(img => {
-        return img.scaleToFit(600,600)
+        return img.scaleToFit(600,600);
     }).then(img=>{
         let textImage = new Jimp(1000,1000, 0x0, (err, textImage) => {  
             //((0x0 = 0 = rgba(0, 0, 0, 0)) = transparent)
@@ -33,21 +46,11 @@ module.exports = async function (context, req) {
         })
     
     
-        textImage.print(font, 0, 0, text)
+        textImage.print(font, 0, 0, text);
         textImage.color([{ apply: 'xor', params: [hexcode] }]); 
-        img.blit(textImage, 0, 0);
+        img.blit(textImage, img.bitmap.width*0.3, img.bitmap.height*0.05);
         return img.getBufferAsync(Jimp.MIME_JPEG);
     });
-
-        // return img
-        // .print(font,0,0, {
-        //     text: text,
-        //     alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER,
-        //     alignmentY: Jimp.VERTICAL_ALIGN_BOTTOM
-        //   },
-        //   img.bitmap.width,
-        //   img.bitmap.height)
-        // .getBufferAsync(Jimp.MIME_JPEG);  
 
     context.res = {
         header: { "content-type": "image/jpg" },
